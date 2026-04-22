@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,44 +30,757 @@
       cursor: pointer;
     }
   </style>
+
+
+  <style>
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+    }
+
+    .calendar-day {
+      min-height: 90px;
+      border: 1px solid #dee2e6;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      background: #fff;
+    }
+
+    .calendar-day .day-number {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .calendar-day.muted {
+      background: #f8f9fa;
+      color: #adb5bd;
+    }
+
+    .calendar-day.has-results {
+      background: #e9f2ff;
+      border-color: #86b7fe;
+      cursor: pointer;
+    }
+
+    .calendar-day.has-results:hover {
+      background: #dbeafe;
+    }
+
+    .calendar-day.active-day {
+      outline: 2px solid #0d6efd;
+      outline-offset: 2px;
+    }
+  </style>
+
+
 </head>
+
 <body>
+<div class="alert alert-warning text-center mb-0 rounded-0">
+  This is a non-functional User Interface demo only. Click buttons, links and drop downs to see the type of information that would appear. Provide feedback to bill.pascoe@unimelb.edu.au. 
+</div>
+  <nav class="bg-dark border-bottom py-2">
+    <div class="container d-flex align-items-center">
 
-<nav class="bg-dark border-bottom py-2">
-  <div class="container d-flex align-items-center">
+      <!-- Left: Title -->
+      <span class="text-white fw-bold fs-3 lh-1">
+        Australian Colonial Hansard
+      </span>
 
-    <!-- Left: Title -->
-    <span class="text-white fw-bold fs-3 lh-1">
-      Australian Colonial Hansards
-    </span>
+      <!-- Right: Nav -->
+      <ul class="nav nav-pills ms-auto gap-2">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="index.html">Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active bg-secondary text-light" href="browse.html">Browse</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="help.html">Help</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="about.html">About</a>
+        </li>
+      </ul>
 
-    <!-- Right: Nav -->
-    <ul class="nav nav-pills ms-auto gap-2">
-      <li class="nav-item">
-        <a class="nav-link text-white" href="index.html">Search</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active bg-secondary text-light" href="browse.html">Browse</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-light" href="help.html">Help</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-light" href="about.html">About</a>
-      </li>
-    </ul>
-
-  </div>
-</nav>
+    </div>
+  </nav>
 
   <main class="container py-4">
     <h1 class="text-center mb-4">Browse</h1>
 
     <div class="container py-3">
 
-  <p>Calendar style navigation for each state/title, similar to current Hansard sites.</p>
 
+
+
+
+
+
+
+      <div class="container py-4">
+
+
+        <div class="mb-4">
+          <ul class="nav nav-pills gap-2" id="browseTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="browse-date-tab" data-bs-toggle="pill" data-bs-target="#browse-date"
+                type="button" role="tab" aria-controls="browse-date" aria-selected="true">
+                Date
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="browse-publication-tab" data-bs-toggle="pill"
+                data-bs-target="#browse-publication" type="button" role="tab" aria-controls="browse-publication"
+                aria-selected="false">
+                Publication
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="browse-speaker-tab" data-bs-toggle="pill" data-bs-target="#browse-speaker"
+                type="button" role="tab" aria-controls="browse-speaker" aria-selected="false">
+                Speaker
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="tab-content" id="browseTabContent">
+
+          <!-- DATE -->
+          <div class="tab-pane fade show active" id="browse-date" role="tabpanel" aria-labelledby="browse-date-tab">
+            <!-- your calendar interface goes here -->
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Browse by Date</h5>
+                <div class="card mb-4">
+                  <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <button type="button" class="btn btn-outline-secondary btn-sm">« Previous Month</button>
+                      <h4 class="mb-0">May 1865</h4>
+                      <button type="button" class="btn btn-outline-secondary btn-sm">Next Month »</button>
+                    </div>
+
+                    <div class="calendar-grid text-center fw-semibold border-bottom pb-2 mb-2">
+                      <div>Sun</div>
+                      <div>Mon</div>
+                      <div>Tue</div>
+                      <div>Wed</div>
+                      <div>Thu</div>
+                      <div>Fri</div>
+                      <div>Sat</div>
+                    </div>
+
+                    <div class="calendar-grid" id="browse_calendar">
+                      <!-- Week 1 -->
+                      <div class="calendar-day muted">
+                        <div class="day-number">28</div>
+                      </div>
+                      <div class="calendar-day muted">
+                        <div class="day-number">29</div>
+                      </div>
+                      <div class="calendar-day muted">
+                        <div class="day-number">30</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">1</div>
+                      </div>
+                      <div class="calendar-day has-results" data-date="1865-05-02">
+                        <div class="day-number">2</div>
+                        <div class="small text-muted">3 items</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">3</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">4</div>
+                      </div>
+
+                      <!-- Week 2 -->
+                      <div class="calendar-day">
+                        <div class="day-number">5</div>
+                      </div>
+                      <div class="calendar-day has-results" data-date="1865-05-06">
+                        <div class="day-number">6</div>
+                        <div class="small text-muted">5 items</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">7</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">8</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">9</div>
+                      </div>
+                      <div class="calendar-day has-results" data-date="1865-05-10">
+                        <div class="day-number">10</div>
+                        <div class="small text-muted">2 items</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">11</div>
+                      </div>
+
+                      <!-- Week 3 -->
+                      <div class="calendar-day">
+                        <div class="day-number">12</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">13</div>
+                      </div>
+                      <div class="calendar-day has-results" data-date="1865-05-14">
+                        <div class="day-number">14</div>
+                        <div class="small text-muted">4 items</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">15</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">16</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">17</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">18</div>
+                      </div>
+
+                      <!-- Week 4 -->
+                      <div class="calendar-day">
+                        <div class="day-number">19</div>
+                      </div>
+                      <div class="calendar-day has-results" data-date="1865-05-20">
+                        <div class="day-number">20</div>
+                        <div class="small text-muted">6 items</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">21</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">22</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">23</div>
+                      </div>
+                      <div class="calendar-day has-results" data-date="1865-05-24">
+                        <div class="day-number">24</div>
+                        <div class="small text-muted">2 items</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">25</div>
+                      </div>
+
+                      <!-- Week 5 -->
+                      <div class="calendar-day">
+                        <div class="day-number">26</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">27</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">28</div>
+                      </div>
+                      <div class="calendar-day has-results" data-date="1865-05-29">
+                        <div class="day-number">29</div>
+                        <div class="small text-muted">3 items</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">30</div>
+                      </div>
+                      <div class="calendar-day">
+                        <div class="day-number">31</div>
+                      </div>
+                      <div class="calendar-day muted">
+                        <div class="day-number">1</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PUBLICATION -->
+          <div class="tab-pane fade" id="browse-publication" role="tabpanel" aria-labelledby="browse-publication-tab">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title mb-3">Browse by Publication</h5>
+
+                <div class="row g-3">
+
+                  <!-- NSW -->
+                  <div class="col-md-6">
+                    <h6 class="fw-bold">New South Wales</h6>
+                    <div class="list-group">
+                      <button class="list-group-item list-group-item-action" data-publication="Empire">
+                        Empire <span class="text-muted small">(1851–1880)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action" data-publication="Sydney Morning Herald">
+                        Sydney Morning Herald <span class="text-muted small">(1843–1900)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action" data-publication="The Australian">
+                        The Australian <span class="text-muted small">(1824–1848)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action" data-publication="Sydney Gazette">
+                        Sydney Gazette <span class="text-muted small">(1824–1839)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action" data-publication="NSW Parliament Hansard">
+                        NSW Parliament Hansard <span class="text-muted small">(1856–1900)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- VIC -->
+                  <div class="col-md-6">
+                    <h6 class="fw-bold">Victoria</h6>
+                    <div class="list-group">
+                      <button class="list-group-item list-group-item-action" data-publication="Argus">
+                        Argus <span class="text-muted small">(1851–1900)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action" data-publication="Age">
+                        Age <span class="text-muted small">(1854–1900)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action" data-publication="Port Phillip Gazette">
+                        Port Phillip Gazette <span class="text-muted small">(1839–1851)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action"
+                        data-publication="Parliament of Victoria Hansard">
+                        Parliament of Victoria Hansard <span class="text-muted small">(1856–1900)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- QLD -->
+                  <div class="col-md-6">
+                    <h6 class="fw-bold">Queensland</h6>
+                    <div class="list-group">
+                      <button class="list-group-item list-group-item-action" data-publication="Brisbane Courier">
+                        Brisbane Courier <span class="text-muted small">(1864–1900)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action"
+                        data-publication="Queensland Parliament Hansard">
+                        Queensland Parliament Hansard <span class="text-muted small">(1864–1900)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- SA -->
+                  <div class="col-md-6">
+                    <h6 class="fw-bold">South Australia</h6>
+                    <div class="list-group">
+                      <button class="list-group-item list-group-item-action"
+                        data-publication="South Australian Register">
+                        South Australian Register <span class="text-muted small">(1839–1900)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action" data-publication="Adelaide Times">
+                        Adelaide Times <span class="text-muted small">(1848–1858)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action"
+                        data-publication="Parliament of South Australia Hansard">
+                        Parliament of South Australia Hansard <span class="text-muted small">(1857–1900)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- WA -->
+                  <div class="col-md-6">
+                    <h6 class="fw-bold">Western Australia</h6>
+                    <div class="list-group">
+                      <button class="list-group-item list-group-item-action"
+                        data-publication="Inquirer and Commercial News">
+                        Inquirer and Commercial News <span class="text-muted small">(1855–1900)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action"
+                        data-publication="Perth Gazette and Western Australian Journal">
+                        Perth Gazette and Western Australian Journal <span class="text-muted small">(1833–1864)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action" data-publication="The West Australian">
+                        The West Australian <span class="text-muted small">(1879–1900)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action"
+                        data-publication="Parliament of Western Australia Hansard">
+                        Parliament of Western Australia Hansard <span class="text-muted small">(1871–1900)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- TAS -->
+                  <div class="col-md-6">
+                    <h6 class="fw-bold">Tasmania</h6>
+                    <div class="list-group">
+                      <button class="list-group-item list-group-item-action" data-publication="Hobart Town Gazette">
+                        Hobart Town Gazette <span class="text-muted small">(1825–1860)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action" data-publication="Colonial Times">
+                        Colonial Times <span class="text-muted small">(1828–1857)</span>
+                      </button>
+                      <button class="list-group-item list-group-item-action" data-publication="The Mercury">
+                        The Mercury <span class="text-muted small">(1854–1900)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- OTHER -->
+                  <div class="col-md-6">
+                    <h6 class="fw-bold">Other</h6>
+                    <div class="list-group">
+                      <button class="list-group-item list-group-item-action"
+                        data-publication="No official colonial source">
+                        No official colonial source <span class="text-muted small">(1979–1900)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- SPEAKER -->
+          <div class="tab-pane fade" id="browse-speaker" role="tabpanel" aria-labelledby="browse-speaker-tab">
+            <div class="card">
+              <div class="card-body">
+
+                <h5 class="card-title mb-3">Browse by Speaker</h5>
+
+                <!-- Alphabet navigation -->
+                <div class="d-flex flex-wrap gap-1 mb-3" id="speaker_letters">
+                  <!-- Active letter -->
+                  <button class="btn btn-sm btn-primary active" data-letter="A">A</button>
+
+                  <!-- Other letters -->
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="B">B</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="C">C</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="D">D</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="E">E</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="F">F</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="G">G</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="H">H</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="I">I</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="J">J</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="K">K</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="L">L</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="M">M</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="N">N</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="O">O</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="P">P</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="Q">Q</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="R">R</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="S">S</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="T">T</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="U">U</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="V">V</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="W">W</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="X">X</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="Y">Y</button>
+                  <button class="btn btn-sm btn-outline-secondary" data-letter="Z">Z</button>
+                </div>
+
+                <!-- Speaker list (A selected) -->
+                <div class="list-group" id="speaker_list">
+
+                  <button class="list-group-item list-group-item-action" data-speaker="Abbott, John">
+                    Abraham, John
+                  </button>
+
+                  <button class="list-group-item list-group-item-action" data-speaker="Ainsworth, William">
+                    Ainsworth, William
+                  </button>
+
+                  <button class="list-group-item list-group-item-action" data-speaker="Allen, George">
+                    Allen, George
+                  </button>
+
+                  <button class="list-group-item list-group-item-action" data-speaker="Anderson, Thomas">
+                    Anderson, Thomas
+                  </button>
+
+                  <button class="list-group-item list-group-item-action" data-speaker="Archer, Charles">
+                    Archer, Charles
+                  </button>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="container py-4">
+
+
+
+        <div id="results_date" style="display: none;">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title mb-3">Results for <span id="results_date_label">14 May 1865</span></h5>
+
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="fw-bold">14 May 1865 — Legislative Council</div>
+                  <div class="small text-muted mb-2">
+                    Speakers: Mr. Parkes<br>
+                    Source: NSW Parliament Hansard<br>
+                    Source URL: <a href="#">https://parliament.nsw.gov.au/example1</a><br>
+                    Cite: NSW Hansard, 14 May 1865<br>
+                    <a href="publication.html">Full text</a>
+                  </div>
+                  <div>…Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. …</div>
+                    
+                </div>
+              </div>
+
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="fw-bold">14 May 1865 — Legislative Assembly</div>
+                  <div class="small text-muted mb-2">
+                    Speakers: Mr. Forster<br>
+                    Source: Sydney Morning Herald<br>
+                    Source URL: <a href="#">https://trove.nla.gov.au/example2</a><br>
+                    Cite: SMH, 15 May 1865
+                  </div>
+                  <div>…Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. …</div>
+                </div>
+              </div>
+
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="fw-bold">14 May 1865 — Legislative Council</div>
+                  <div class="small text-muted mb-2">
+                    Speakers: Mr. Robertson<br>
+                    Source: NSW Parliament Hansard<br>
+                    Source URL: <a href="#">https://parliament.nsw.gov.au/example3</a><br>
+                    Cite: NSW Hansard, 14 May 1865
+                  </div>
+                  <div>…Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. …</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div id="results_publication" style="display:none;">
+
+
+
+
+
+
+        
+
+
+
+        <div class="card">
+  <div class="card-body">
+    <h5 class="card-title mb-3">Sydney Morning Herald</h5>
+    <p class="text-muted mb-3">Available dates, 1843–1900</p>
+
+    <div id="smh-years"></div>
+  </div>
 </div>
+
+<script>
+(function () {
+  const container = document.getElementById('smh-years');
+  const publication = 'Sydney Morning Herald';
+  const pubCode = 'smh';
+
+  const months = [
+    { m: 1, days: [1, 8, 15, 22] },
+    { m: 2, days: [1, 8, 15, 22] },
+    { m: 3, days: [1, 8, 15, 22] },
+    { m: 4, days: [1, 8, 15, 22] },
+    { m: 5, days: [1, 8, 15, 22] },
+    { m: 6, days: [1, 8, 15, 22] },
+    { m: 7, days: [1, 8, 15, 22] },
+    { m: 8, days: [1, 8, 15, 22] },
+    { m: 9, days: [1, 8, 15, 22] },
+    { m: 10, days: [1, 8, 15, 22] },
+    { m: 11, days: [1, 8, 15, 22] },
+    { m: 12, days: [1, 8, 15, 22] }
+  ]; // 12 x 4 = 48 dates per year
+
+  function pad(n) {
+    return String(n).padStart(2, '0');
+  }
+
+  function prettyDate(year, month, day) {
+    const d = new Date(year, month - 1, day);
+    return d.toLocaleDateString('en-AU', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
+  }
+
+  for (let year = 1843; year <= 1900; year++) {
+    const section = document.createElement('div');
+    section.className = 'mb-4';
+
+    const heading = document.createElement('h6');
+    heading.className = 'fw-bold mb-2';
+    heading.textContent = year;
+    section.appendChild(heading);
+
+    const links = document.createElement('div');
+    links.className = 'small lh-lg';
+
+    const yearDates = [];
+
+    months.forEach(({ m, days }) => {
+      days.forEach(day => {
+        const iso = `${year}-${pad(m)}-${pad(day)}`;
+        const label = prettyDate(year, m, day);
+        yearDates.push(
+          `<a href="publication.html?pub=${encodeURIComponent(pubCode)}&date=${iso}" class="me-3">${label}</a>`
+        );
+      });
+    });
+
+    links.innerHTML = yearDates.join('');
+    section.appendChild(links);
+    container.appendChild(section);
+  }
+})();
+</script>
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div id="results_speaker" style="display:none;">
+
+
+
+<div class="card">
+  <div class="card-body">
+
+    <h5 class="card-title mb-3">John Abraham</h5>
+    <p class="text-muted mb-3">Speeches in The Age and The Argus (1856–1859)</p>
+
+    <div class="list-group">
+
+      <a href="publication.html?pub=age&date=1856-03-12" class="list-group-item list-group-item-action">
+        <div class="fw-bold">The Age</div>
+        <div class="small text-muted">12 March 1856</div>
+      </a>
+
+      <a href="publication.html?pub=argus&date=1856-07-04" class="list-group-item list-group-item-action">
+        <div class="fw-bold">Argus</div>
+        <div class="small text-muted">4 July 1856</div>
+      </a>
+
+      <a href="publication.html?pub=age&date=1857-01-18" class="list-group-item list-group-item-action">
+        <div class="fw-bold">The Age</div>
+        <div class="small text-muted">18 January 1857</div>
+      </a>
+
+      <a href="publication.html?pub=argus&date=1857-05-22" class="list-group-item list-group-item-action">
+        <div class="fw-bold">Argus</div>
+        <div class="small text-muted">22 May 1857</div>
+      </a>
+
+      <a href="publication.html?pub=age&date=1857-11-09" class="list-group-item list-group-item-action">
+        <div class="fw-bold">The Age</div>
+        <div class="small text-muted">9 November 1857</div>
+      </a>
+
+      <a href="publication.html?pub=argus&date=1858-02-14" class="list-group-item list-group-item-action">
+        <div class="fw-bold">Argus</div>
+        <div class="small text-muted">14 February 1858</div>
+      </a>
+
+      <a href="publication.html?pub=age&date=1858-06-30" class="list-group-item list-group-item-action">
+        <div class="fw-bold">The Age</div>
+        <div class="small text-muted">30 June 1858</div>
+      </a>
+
+      <a href="publication.html?pub=argus&date=1858-10-11" class="list-group-item list-group-item-action">
+        <div class="fw-bold">Argus</div>
+        <div class="small text-muted">11 October 1858</div>
+      </a>
+
+      <a href="publication.html?pub=age&date=1859-03-07" class="list-group-item list-group-item-action">
+        <div class="fw-bold">The Age</div>
+        <div class="small text-muted">7 March 1859</div>
+      </a>
+
+      <a href="publication.html?pub=argus&date=1859-08-19" class="list-group-item list-group-item-action">
+        <div class="fw-bold">Argus</div>
+        <div class="small text-muted">19 August 1859</div>
+      </a>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+      </div>
+
+
+
+
+
+    </div>
+
+
+    
 
   </main>
 
@@ -75,5 +789,64 @@
     document.querySelectorAll('[data-bs-toggle="tooltip"]')
       .forEach(el => new bootstrap.Tooltip(el));
   </script>
+
+
+
+  <script>
+    const resultsDateLabel = document.getElementById('results_date_label');
+    const resultDays = document.querySelectorAll('.calendar-day.has-results');
+
+    resultDays.forEach(day => {
+      day.addEventListener('click', function () {
+        resultDays.forEach(d => d.classList.remove('active-day'));
+        this.classList.add('active-day');
+
+        const selectedDate = this.getAttribute('data-date');
+        const prettyDate = new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-AU', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+
+        resultsDateLabel.textContent = prettyDate;
+        showResults('date');
+      });
+    });
+
+    
+function showResults(type) {
+  hideAllResults();
+  document.getElementById('results_' + type).style.display = 'block';
+  document.getElementById('results_' + type).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+
+function hideAllResults() {
+  document.getElementById('results_date').style.display = 'none';
+  document.getElementById('results_publication').style.display = 'none';
+  document.getElementById('results_speaker').style.display = 'none';
+}
+
+    document.querySelectorAll('[data-publication]').forEach(btn => {
+      btn.addEventListener('click', function () {
+        showResults('publication');
+        document.getElementById('results_publication').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    document.querySelectorAll('[data-speaker]').forEach(btn => {
+      btn.addEventListener('click', function () {
+        showResults('speaker');
+        document.getElementById('results_speaker').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    document.getElementById('browse-date-tab').addEventListener('click', hideAllResults);
+document.getElementById('browse-publication-tab').addEventListener('click', hideAllResults);
+document.getElementById('browse-speaker-tab').addEventListener('click', hideAllResults);
+
+  </script>
+
 </body>
+
 </html>

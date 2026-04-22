@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,50 +31,57 @@
     }
   </style>
 </head>
+
 <body>
+<div class="alert alert-warning text-center mb-0 rounded-0">
+  This is a non-functional User Interface demo only. Click buttons, links and drop downs to see the type of information that would appear. Provide feedback to bill.pascoe@unimelb.edu.au. 
+</div>
+  <nav class="bg-dark border-bottom py-2">
+    <div class="container d-flex align-items-center">
 
-<nav class="bg-dark border-bottom py-2">
-  <div class="container d-flex align-items-center">
+      <!-- Left: Title -->
+      <span class="text-white fw-bold fs-3 lh-1">
+        Australian Colonial Hansard
+      </span>
 
-    <!-- Left: Title -->
-    <span class="text-white fw-bold fs-3 lh-1">
-      Australian Colonial Hansards
-    </span>
+      <!-- Right: Nav -->
+      <ul class="nav nav-pills ms-auto gap-2">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="index.html">Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="browse.html">Browse</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active bg-secondary text-light" href="help.html">Help</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="about.html">About</a>
+        </li>
+      </ul>
 
-    <!-- Right: Nav -->
-    <ul class="nav nav-pills ms-auto gap-2">
-      <li class="nav-item">
-        <a class="nav-link text-white" href="index.html">Search</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-light" href="browse.html">Browse</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active bg-secondary text-light" href="help.html">Help</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-light" href="about.html">About</a>
-      </li>
-    </ul>
-
-  </div>
-</nav>
+    </div>
+  </nav>
 
   <main class="container py-4">
     <h1 class="text-center mb-4">Help</h1>
 
     <div class="container py-3">
 
-  <p>Details about the limitations of official sources, what is available in newspapers, thorough publishing of SA is in print, but not digitised, etc.</p>
-  <p>Caveats about processed texts and effectiveness of matching. Warning to check original for verbatim citations and specific details.
-  <p>Walk through how-to guides</p>
+      <p>Details about the limitations of official sources, what is available in newspapers, thorough publishing of SA
+        is in print, but not digitised, etc.</p>
+      <p>Caveats about processed texts and effectiveness of matching. Warning to check original for verbatim citations
+        and specific details.
+      <p>Walk through how-to guides</p>
 
-</div>
+    </div>
+    </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    document.querySelectorAll('[data-bs-toggle="tooltip"]')
-      .forEach(el => new bootstrap.Tooltip(el));
-  </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        .forEach(el => new bootstrap.Tooltip(el));
+    </script>
 </body>
+
 </html>

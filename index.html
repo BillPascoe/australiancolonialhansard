@@ -10,315 +10,647 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-<style>
-  .selected-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.35rem 0.65rem;
-    border: 1px solid #6c757d;
-    border-radius: 999px;
-    background: #e9ecef;
-    font-size: 0.95rem;
-  }
+  <style>
+    .selected-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.65rem;
+      border: 1px solid #6c757d;
+      border-radius: 999px;
+      background: #e9ecef;
+      font-size: 0.95rem;
+    }
 
-  .selected-chip button {
-    border: 0;
-    background: transparent;
-    padding: 0;
-    line-height: 1;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-</style>
+    .selected-chip button {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      line-height: 1;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    #results {
+  display: none;
+}
+
+  </style>
 
 </head>
 
 <body>
-
-<nav class="bg-dark border-bottom py-2">
-  <div class="container d-flex align-items-center">
-
-    <!-- Left: Title -->
-    <span class="text-white fw-bold fs-3 lh-1">
-      Australian Colonial Hansards
-    </span>
-
-    <!-- Right: Nav -->
-    <ul class="nav nav-pills ms-auto gap-2">
-      <li class="nav-item">
-        <a class="nav-link active bg-secondary text-white" href="index.html">Search</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-light" href="browse.html">Browse</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-light" href="help.html">Help</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-light" href="about.html">About</a>
-      </li>
-    </ul>
-
-  </div>
-</nav>
-
-<div class="container py-3">
-
-  <form>
-    <div class="row g-3">
-
-<form>
-  <div class="row g-3">
-
-    <div class="col-12">
-	  <label for="search_term" class="form-label"><strong>Search</strong>
-		<span class="ms-1" data-bs-toggle="tooltip"
-				title="Enter a word or boolean search and select 'traditional' or enter a question and select 'natural language'."
-				style="cursor: help;">
-			<i class="bi bi-question-circle"></i>
-		  </span>
-		</label>
-	  <div class="input-group">
-		<input type="text" class="form-control" id="search_term" name="search_term">
-		<span class="input-group-text">
-		  <i class="bi bi-search"></i>
-		</span>
-	  </div>
-	</div>
-
-    <div class="col-12">
-      <label class="form-label d-block"><strong>Search type</strong>
-	  <span class="ms-1" data-bs-toggle="tooltip"
-				title="Choose 'traditional' for a word or boolean search, 'natural language' for a question."
-				style="cursor: help;">
-			<i class="bi bi-question-circle"></i>
-		  </span>
-		  </label>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="search_type" id="traditional" value="traditional" checked>
-        <label class="form-check-label" for="traditional">Traditional</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="search_type" id="natural_language" value="natural_language">
-        <label class="form-check-label" for="natural_language">Natural language</label>
-      </div>
-    </div>
-	
-	<div class="col-12">
-	  <label class="form-label d-block"><strong>Date Range</strong>
-		<span class="ms-1" data-bs-toggle="tooltip"
-			  title="Return results only within a range. Hansards began at different times in different forms in different colonies. The earliest are 1824 in NSW."
-			  style="cursor: help;">
-		  <i class="bi bi-question-circle"></i>
-		</span>
-	  </label>
-	</div>
-	
-		<div class="col-md-6">
-	  <label for="date_from" class="form-label">Date From</label>
-	  <input type="date" class="form-control" id="date_from" name="date_from"
-			 value="1824-01-01"
-			 min="1824-01-01"
-			 max="1900-01-01">
-	</div>
-
-	<div class="col-md-6">
-	  <label for="date_to" class="form-label">Date To</label>
-	  <input type="date" class="form-control" id="date_to" name="date_to"
-			 value="1900-01-01"
-			 min="1824-01-01"
-			 max="1900-01-01">
-	</div>
-
-      <div class="col-12">
-      <label class="form-label d-block"><strong>House</strong>
-        <span class="ms-1" data-bs-toggle="tooltip"
-              title="Filter results by parliamentary house."
-              style="cursor: help;">
-          <i class="bi bi-question-circle"></i>
-        </span>
-      </label>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="legislative_council" name="house[]" value="Legislative Council">
-        <label class="form-check-label" for="legislative_council">Legislative Council</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="legislative_assembly" name="house[]" value="Legislative Assembly">
-        <label class="form-check-label" for="legislative_assembly">Legislative Assembly</label>
-      </div>
-    </div>
-
-
-    <div class="col-12">
-      <label class="form-label d-block"><strong>Appointment Type</strong>
-	  <span class="ms-1" data-bs-toggle="tooltip"
-				title="Earliest parliaments were appointed by the Governor of the colony. Later parliaments were elected."
-				style="cursor: help;">
-			<i class="bi bi-question-circle"></i>
-		  </span>
-		</label>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="appointed" name="source_type[]" value="appointed">
-        <label class="form-check-label" for="appointed">Appointed</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="elected" name="source_type[]" value="elected">
-        <label class="form-check-label" for="elected">Elected</label>
-      </div>
-    </div>
-
-
-    <div class="col-12">
-      <label class="form-label d-block"><strong>Source Type</strong>
-	  <span class="ms-1" data-bs-toggle="tooltip"
-				title="Limit the search to any combination of official Hansards sources, or include the principle newspaper versions, or alternative newspaper versions."
-				style="cursor: help;">
-			<i class="bi bi-question-circle"></i>
-		  </span>
-		</label>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="official" name="source_type[]" value="official">
-        <label class="form-check-label" for="official">Government Publication</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="newspapers" name="source_type[]" value="newspapers">
-        <label class="form-check-label" for="newspapers">Newspapers</label>
-      </div>
-    </div>
-
-
-
-<div class="col-md-12">
-  <label for="title_select" class="form-label"><strong>State / Title</strong></label>
-
-  <select class="form-select" id="title_select">
-    <option value="">Select a source...</option>
-
-    <optgroup label="NSW">
-      <option value="NSW Parliament Hansard">NSW Parliament Hansard (1856–1900)</option>
-      <option value="NSW Trove Empire Legislative Council">NSW Trove Empire Legislative Council (1851–1880)</option>
-      <option value="Sydney Morning Herald">Sydney Morning Herald (1843–1900)</option>
-      <option value="The Australian">The Australian (1824–1848)</option>
-      <option value="Sydney Gazette">Sydney Gazette (1824–1839)</option>
-    </optgroup>
-
-    <optgroup label="VIC">
-      <option value="Parliament of Victoria Hansard">Parliament of Victoria Hansard (1856–1900)</option>
-      <option value="Argus">Argus (1851–1900)</option>
-      <option value="Age">Age (1854–1900)</option>
-      <option value="Port Phillip Gazette">Port Phillip Gazette (1839–1851)</option>
-    </optgroup>
-
-    <optgroup label="SA">
-      <option value="Parliament of South Australia Hansard">Parliament of South Australia Hansard (1857–1900)</option>
-      <option value="South Australian Register">South Australian Register (1839–1900)</option>
-      <option value="Adelaide Times">Adelaide Times (1848–1858)</option>
-    </optgroup>
-
-    <optgroup label="QLD">
-      <option value="Queensland Parliament Hansard">Queensland Parliament Hansard (1864–1900)</option>
-      <option value="Brisbane Courier">Brisbane Courier (1864–1900)</option>
-    </optgroup>
-
-    <optgroup label="WA">
-      <option value="Parliament of Western Australia Hansard">Parliament of Western Australia Hansard (1871–1900)</option>
-      <option value="Inquirer and Commercial News">Inquirer and Commercial News (1855–1900)</option>
-      <option value="Perth Gazette and Western Australian Journal">Perth Gazette and Western Australian Journal (1833–1864)</option>
-      <option value="The West Australian">The West Australian (1879–1900)</option>
-    </optgroup>
-
-    <optgroup label="TAS">
-      <option value="Hobart Town Gazette">Hobart Town Gazette (1825–1860)</option>
-      <option value="Colonial Times">Colonial Times (1828–1857)</option>
-      <option value="The Mercury">The Mercury (1854–1900)</option>
-    </optgroup>
-
-    <optgroup label="Other">
-      <option value="No official colonial source">No official colonial source (1979–1900)</option>
-    </optgroup>
-  </select>
-
-  <div id="selected_titles" class="mt-2 d-flex flex-wrap gap-2"></div>
-  <div id="selected_title_inputs"></div>
+<div class="alert alert-warning text-center mb-0 rounded-0">
+  This is a non-functional User Interface demo only. Click buttons, links and drop downs to see the type of information that would appear. Provide feedback to bill.pascoe@unimelb.edu.au. 
 </div>
+  <nav class="bg-dark border-bottom py-2">
+    <div class="container d-flex align-items-center">
+
+      <!-- Left: Title -->
+      <span class="text-white fw-bold fs-3 lh-1">
+        Australian Colonial Hansard
+      </span>
+      
+
+      <!-- Right: Nav -->
+      <ul class="nav nav-pills ms-auto gap-2">
+        <li class="nav-item">
+          <a class="nav-link active bg-secondary text-white" href="index.html">Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="browse.html">Browse</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="help.html">Help</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="about.html">About</a>
+        </li>
+      </ul>
+
+    </div>
+  </nav>
+
+  <div class="container py-3">
+
+
+    <h1 class="text-center mb-4">Search</h1>
+
+    <form>
+      <div class="row g-3">
+
+        <form>
+          <div class="row g-3">
+
+            <div class="col-12">
+              <label for="search_term" class="form-label"><strong>Search</strong>
+                <span class="ms-1" data-bs-toggle="tooltip"
+                  title="Enter a word or boolean search and select 'traditional' or enter a question and select 'natural language'."
+                  style="cursor: help;">
+                  <i class="bi bi-question-circle"></i>
+                </span>
+              </label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="search_term" name="search_term">
+                <button class="input-group-text" id="search_button" type="button">
+  <i class="bi bi-search"></i>
+</button>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label d-block"><strong>Search type</strong>
+                <span class="ms-1" data-bs-toggle="tooltip"
+                  title="Choose 'traditional' for a word or boolean search, 'natural language' for a question or to search for things on a similar topic or with similar meaning."
+                  style="cursor: help;">
+                  <i class="bi bi-question-circle"></i>
+                </span>
+              </label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="search_type" id="traditional" value="traditional"
+                  checked>
+                <label class="form-check-label" for="traditional">Traditional</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="search_type" id="natural_language"
+                  value="natural_language">
+                <label class="form-check-label" for="natural_language">Natural language</label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="accordion" id="advancedSearchAccordion">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="advancedSearchHeading">
+                    <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#advancedSearchCollapse" aria-expanded="false"
+                      aria-controls="advancedSearchCollapse">
+                      Advanced Search
+                    </button>
+                  </h2>
+                  <div id="advancedSearchCollapse" class="accordion-collapse collapse"
+                    aria-labelledby="advancedSearchHeading" data-bs-parent="#advancedSearchAccordion">
+                    <div class="accordion-body">
+                      <div class="row g-3">
+                        <div class="col-12">
+                          <label class="form-label d-block"><strong>Date Range</strong>
+                            <span class="ms-1" data-bs-toggle="tooltip"
+                              title="Return results only within a range. Hansards began at different times in different forms in different colonies. The earliest are 1824 in NSW."
+                              style="cursor: help;">
+                              <i class="bi bi-question-circle"></i>
+                            </span>
+                          </label>
+                        </div>
+
+                        <div class="col-md-6">
+                          <label for="date_from" class="form-label">Date From</label>
+                          <input type="date" class="form-control" id="date_from" name="date_from" value="1824-01-01"
+                            min="1824-01-01" max="1900-01-01">
+                        </div>
+
+                        <div class="col-md-6">
+                          <label for="date_to" class="form-label">Date To</label>
+                          <input type="date" class="form-control" id="date_to" name="date_to" value="1900-01-01"
+                            min="1824-01-01" max="1900-01-01">
+                        </div>
+
+                        <div class="col-12">
+                          <label class="form-label d-block"><strong>House</strong>
+                            <span class="ms-1" data-bs-toggle="tooltip" title="Filter results by parliamentary house."
+                              style="cursor: help;">
+                              <i class="bi bi-question-circle"></i>
+                            </span>
+                          </label>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="legislative_council" name="house[]"
+                              value="Legislative Council">
+                            <label class="form-check-label" for="legislative_council">Legislative Council</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="legislative_assembly" name="house[]"
+                              value="Legislative Assembly">
+                            <label class="form-check-label" for="legislative_assembly">Legislative Assembly</label>
+                          </div>
+                        </div>
+
+                        <div class="col-12">
+                          <label class="form-label d-block"><strong>Appointment Type</strong>
+                            <span class="ms-1" data-bs-toggle="tooltip"
+                              title="Earliest parliaments were appointed by the Governor of the colony. Later parliaments were elected."
+                              style="cursor: help;">
+                              <i class="bi bi-question-circle"></i>
+                            </span>
+                          </label>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="appointed" name="appointment_type[]"
+                              value="appointed">
+                            <label class="form-check-label" for="appointed">Appointed</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="elected" name="appointment_type[]"
+                              value="elected">
+                            <label class="form-check-label" for="elected">Elected</label>
+                          </div>
+                        </div>
+
+                        <div class="col-12">
+                          <label class="form-label d-block"><strong>Source Type</strong>
+                            <span class="ms-1" data-bs-toggle="tooltip"
+                              title="Limit the search to any combination of official Hansards sources, or include the principle newspaper versions, or alternative newspaper versions."
+                              style="cursor: help;">
+                              <i class="bi bi-question-circle"></i>
+                            </span>
+                          </label>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="official" name="source_type[]"
+                              value="official">
+                            <label class="form-check-label" for="official">Government Publication</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="newspapers" name="source_type[]"
+                              value="newspapers">
+                            <label class="form-check-label" for="newspapers">Newspapers</label>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <label for="title_select" class="form-label"><strong>State / Title</strong></label>
+
+                          <select class="form-select" id="title_select">
+                            <option value="">Select a source...</option>
+
+                            <optgroup label="NSW">
+                              <option value="NSW Parliament Hansard">NSW Parliament Hansard (1856–1900)</option>
+                              <option value="NSW Trove Empire Legislative Council">NSW Trove Empire Legislative Council
+                                (1851–1880)</option>
+                              <option value="Sydney Morning Herald">Sydney Morning Herald (1843–1900)</option>
+                              <option value="The Australian">The Australian (1824–1848)</option>
+                              <option value="Sydney Gazette">Sydney Gazette (1824–1839)</option>
+                            </optgroup>
+
+                            <optgroup label="VIC">
+                              <option value="Parliament of Victoria Hansard">Parliament of Victoria Hansard (1856–1900)
+                              </option>
+                              <option value="Argus">Argus (1851–1900)</option>
+                              <option value="Age">Age (1854–1900)</option>
+                              <option value="Port Phillip Gazette">Port Phillip Gazette (1839–1851)</option>
+                            </optgroup>
+
+                            <optgroup label="SA">
+                              <option value="Parliament of South Australia Hansard">Parliament of South Australia
+                                Hansard (1857–1900)</option>
+                              <option value="South Australian Register">South Australian Register (1839–1900)</option>
+                              <option value="Adelaide Times">Adelaide Times (1848–1858)</option>
+                            </optgroup>
+
+                            <optgroup label="QLD">
+                              <option value="Queensland Parliament Hansard">Queensland Parliament Hansard (1864–1900)
+                              </option>
+                              <option value="Brisbane Courier">Brisbane Courier (1864–1900)</option>
+                            </optgroup>
+
+                            <optgroup label="WA">
+                              <option value="Parliament of Western Australia Hansard">Parliament of Western Australia
+                                Hansard (1871–1900)</option>
+                              <option value="Inquirer and Commercial News">Inquirer and Commercial News (1855–1900)
+                              </option>
+                              <option value="Perth Gazette and Western Australian Journal">Perth Gazette and Western
+                                Australian Journal (1833–1864)</option>
+                              <option value="The West Australian">The West Australian (1879–1900)</option>
+                            </optgroup>
+
+                            <optgroup label="TAS">
+                              <option value="Hobart Town Gazette">Hobart Town Gazette (1825–1860)</option>
+                              <option value="Colonial Times">Colonial Times (1828–1857)</option>
+                              <option value="The Mercury">The Mercury (1854–1900)</option>
+                            </optgroup>
+
+                            <optgroup label="Other">
+                              <option value="No official colonial source">No official colonial source (1979–1900)
+                              </option>
+                            </optgroup>
+                          </select>
+
+                          <div id="selected_titles" class="mt-2 d-flex flex-wrap gap-2"></div>
+                          <div id="selected_title_inputs"></div>
+                        </div>
+
+                        <div class="col-12">
+                          <label for="filter_name" class="form-label"><strong>Filter by name</strong></label>
+                          <select class="form-select" id="filter_name" name="filter_name">
+                            <option value="">Select name</option>
+                            <option value="name_1">John Smith</option>
+                            <option value="name_2">Enry Iggins</option>
+                            <option value="name_3">Amos Quito</option>
+                            <option value="name_4">...</option>
+                          </select>
+                        </div>
+
+                        <div class="col-md-3">
+                          <label for="limit" class="form-label"><strong>Number of results</strong></label>
+                          <select class="form-select" id="limit" name="limit">
+                            <option value="100">100</option>
+                            <option value="1000">1,000</option>
+                            <option value="10000">10,000</option>
+                          </select>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+
+
+      </div>
+    </form>
+    <div id="results" class="mt-4">
+      <div class="card">
+        <div class="card-body">
+
+          <h5 class="card-title mb-3">Search Results</h5>
 
 
 
-    <div class="col-12">
-      <label for="filter_name" class="form-label"><strong>Filter by name</strong></label>
-      <select class="form-select" id="filter_name" name="filter_name">
-        <option value="">Select name</option>
-        <option value="name_1">John Smith</option>
-        <option value="name_2">Enry Iggins</option>
-        <option value="name_3">Amos Quito</option>
-        <option value="name_4">...</option>
+
+
+<div class="card mb-3">
+  <div class="card-body py-2 d-flex flex-wrap align-items-center justify-content-between gap-3">
+
+    <!-- LEFT: Results count -->
+    <div class="small text-muted">
+      Showing <strong id="results_start">101</strong>–
+      <strong id="results_end">200</strong> of
+      <strong id="results_total">12,438</strong> results
+    </div>
+
+    <!-- MIDDLE: Sort -->
+    <div class="d-flex align-items-center gap-2">
+      <label for="sort_by" class="form-label mb-0 small"><strong>Sort</strong></label>
+      <select class="form-select form-select-sm w-auto" id="sort_by" name="sort_by">
+        <option value="relevance">Relevance</option>
+        <option value="date_desc">Date (Newest)</option>
+        <option value="date_asc">Date (Oldest)</option>
+        <option value="speaker_asc">Speaker (A–Z)</option>
+        <option value="source_asc">Source (A–Z)</option>
       </select>
     </div>
 
+    <!-- RIGHT: Download -->
+    <div class="d-flex align-items-center gap-2">
+      <span class="small fw-bold">Download</span>
+      <div class="btn-group btn-group-sm" role="group" aria-label="Download options">
+        <button type="button" class="btn btn-outline-secondary" data-format="csv">CSV</button>
+        <button type="button" class="btn btn-outline-secondary" data-format="json">JSON</button>
+        <button type="button" class="btn btn-outline-secondary" data-format="rocrate">RO-Crate</button>
+      </div>
+    </div>
+
   </div>
-</form>
-
-
 </div>
+
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+
+  <!-- LEFT: page status -->
+  <div class="small text-muted">
+    Page <strong id="current_page">2</strong> of <strong id="total_pages">125</strong>
+  </div>
+
+  <!-- CENTRE: pagination buttons -->
+  <nav aria-label="Search results pages">
+    <ul class="pagination pagination-sm mb-0 flex-wrap">
+
+      <li class="page-item">
+        <button class="page-link" type="button" id="first_page" aria-label="First page">««</button>
+      </li>
+
+      <li class="page-item">
+        <button class="page-link" type="button" id="prev_page" aria-label="Previous page">«</button>
+      </li>
+
+      <li class="page-item">
+        <button class="page-link" type="button" data-page="1">1</button>
+      </li>
+
+      <li class="page-item active" aria-current="page">
+        <button class="page-link" type="button" data-page="2">2</button>
+      </li>
+
+      <li class="page-item">
+        <button class="page-link" type="button" data-page="3">3</button>
+      </li>
+
+      <li class="page-item">
+        <button class="page-link" type="button" data-page="4">4</button>
+      </li>
+
+      <li class="page-item disabled">
+        <span class="page-link">…</span>
+      </li>
+
+      <li class="page-item">
+        <button class="page-link" type="button" data-page="125">125</button>
+      </li>
+
+      <li class="page-item">
+        <button class="page-link" type="button" id="next_page" aria-label="Next page">»</button>
+      </li>
+
+      <li class="page-item">
+        <button class="page-link" type="button" id="last_page" aria-label="Last page">»»</button>
+      </li>
+
+    </ul>
+  </nav>
+
+  <!-- RIGHT: jump to page -->
+  <form class="d-flex align-items-center gap-2 mb-0" id="jump_to_page_form">
+    <label for="jump_to_page" class="small mb-0"><strong>Go to page</strong></label>
+    <input
+      type="number"
+      class="form-control form-control-sm"
+      id="jump_to_page"
+      name="jump_to_page"
+      min="1"
+      max="125"
+      style="width: 6rem;"
+    >
+    <button type="submit" class="btn btn-outline-secondary btn-sm">Go</button>
   </form>
 
 </div>
 
 
+
+
+
+
+          <!-- Example result -->
+          <div class="card mb-3">
+  <div class="card-body">
+    <div class="fw-bold">14 May 1861 — Legislative Assembly</div>
+    <div class="small text-muted mb-2">
+      Speakers: Mr. Robertson<br>
+      Source: NSW Parliament Hansard<br>
+      Source URL: <a href="#">https://parliament.nsw.gov.au/example1</a><br>
+      Cite: NSW Hansard, 14 May 1861<br>
+                    <a href="publication.html">Full text</a>
+    </div>
+    <div>…the assisted passage scheme has contributed significantly to the arrival of agricultural labourers from England and Scotland, many of whom have settled in rural districts…</div>
+  </div>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-	  document.querySelectorAll('[data-bs-toggle="tooltip"]')
-		.forEach(el => new bootstrap.Tooltip(el));
-	</script>
-	
-	<script>
-  const titleSelect = document.getElementById('title_select');
-  const selectedTitles = document.getElementById('selected_titles');
-  const selectedTitleInputs = document.getElementById('selected_title_inputs');
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="fw-bold">3 August 1865 — Legislative Council</div>
+    <div class="small text-muted mb-2">
+      Speakers: Mr. Parkes<br>
+      Source: NSW Parliament Hansard<br>
+      Source URL: <a href="#">https://parliament.nsw.gov.au/example2</a><br>
+      Cite: NSW Hansard, 3 Aug 1865<br>
+                    <a href="publication.html">Full text</a>
+    </div>
+    <div>…discussion arose regarding the regulation of immigration from China, particularly in relation to the goldfields and the question of colonial labour markets…</div>
+  </div>
+</div>
 
-  function addTitle(value, label) {
-    if (!value) return;
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="fw-bold">21 February 1870 — Legislative Assembly</div>
+    <div class="small text-muted mb-2">
+      Speakers: Mr. Lang<br>
+      Source: Sydney Morning Herald<br>
+      Source URL: <a href="#">https://trove.nla.gov.au/example3</a><br>
+      Cite: SMH, 22 Feb 1870<br>
+                    <a href="publication.html">Full text</a>
+    </div>
+    <div>…it was observed that a number of German migrants had established successful farming communities, particularly in the southern districts of the colony…</div>
+  </div>
+</div>
 
-    if (selectedTitleInputs.querySelector('input[value="' + CSS.escape(value) + '"]')) {
-      titleSelect.value = '';
-      return;
-    }
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="fw-bold">9 November 1873 — Legislative Council</div>
+    <div class="small text-muted mb-2">
+      Speakers: Mr. Forster<br>
+      Source: NSW Parliament Hansard<br>
+      Source URL: <a href="#">https://parliament.nsw.gov.au/example4</a><br>
+      Cite: NSW Hansard, 9 Nov 1873<br>
+                    <a href="publication.html">Full text</a>
+    </div>
+    <div>…returns indicate that assisted migrants from Ireland and Scotland continue to arrive in steady numbers under the current immigration programme…</div>
+  </div>
+</div>
 
-    const chip = document.createElement('span');
-    chip.className = 'selected-chip';
-    chip.setAttribute('data-value', value);
-    chip.innerHTML = `
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="fw-bold">17 June 1876 — Legislative Assembly</div>
+    <div class="small text-muted mb-2">
+      Speakers: Mr. Farnell<br>
+      Source: The Argus<br>
+      Source URL: <a href="#">https://trove.nla.gov.au/example5</a><br>
+      Cite: Argus, 19 June 1876<br>
+                    <a href="publication.html">Full text</a>
+    </div>
+    <div>…questions were raised as to whether assisted passage should be extended to migrants from continental Europe, including Germany and Scandinavia…</div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="fw-bold">4 April 1880 — Legislative Assembly</div>
+    <div class="small text-muted mb-2">
+      Speakers: Mr. Stuart<br>
+      Source: NSW Parliament Hansard<br>
+      Source URL: <a href="#">https://parliament.nsw.gov.au/example6</a><br>
+      Cite: NSW Hansard, 4 Apr 1880<br>
+                    <a href="publication.html">Full text</a>
+    </div>
+    <div>…the debate turned upon the desirability of encouraging family migration rather than single labourers under the assisted passage system…</div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="fw-bold">12 September 1884 — Legislative Council</div>
+    <div class="small text-muted mb-2">
+      Speakers: Mr. Dibbs<br>
+      Source: NSW Parliament Hansard<br>
+      Source URL: <a href="#">https://parliament.nsw.gov.au/example7</a><br>
+      Cite: NSW Hansard, 12 Sept 1884<br>
+                    <a href="publication.html">Full text</a>
+    </div>
+    <div>…reference was made to the increasing number of arrivals from England and the need to provide employment opportunities in expanding urban centres…</div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="fw-bold">28 July 1887 — Legislative Assembly</div>
+    <div class="small text-muted mb-2">
+      Speakers: Mr. Jennings<br>
+      Source: The Age<br>
+      Source URL: <a href="#">https://trove.nla.gov.au/example8</a><br>
+      Cite: The Age, 29 July 1887<br>
+                    <a href="publication.html">Full text</a>
+    </div>
+    <div>…members discussed the impact of immigration policies on wages, particularly in relation to skilled tradesmen arriving from Britain…</div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="fw-bold">6 March 1892 — Legislative Council</div>
+    <div class="small text-muted mb-2">
+      Speakers: Mr. Reid<br>
+      Source: NSW Parliament Hansard<br>
+      Source URL: <a href="#">https://parliament.nsw.gov.au/example9</a><br>
+      Cite: NSW Hansard, 6 Mar 1892<br>
+                    <a href="publication.html">Full text</a>
+    </div>
+    <div>…the question of restricting immigration from China was again considered, with differing views expressed as to its economic consequences…</div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="fw-bold">15 October 1898 — Legislative Assembly</div>
+    <div class="small text-muted mb-2">
+      Speakers: Mr. Barton<br>
+      Source: NSW Parliament Hansard<br>
+      Source URL: <a href="#">https://parliament.nsw.gov.au/example10</a><br>
+      Cite: NSW Hansard, 15 Oct 1898<br>
+                    <a href="publication.html">Full text</a>
+    </div>
+    <div>…it was argued that a coordinated colonial approach to immigration policy would better manage arrivals from Europe and Asia alike…</div>
+  </div>
+</div>
+            
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      .forEach(el => new bootstrap.Tooltip(el));
+  </script>
+
+  <script>
+    const titleSelect = document.getElementById('title_select');
+    const selectedTitles = document.getElementById('selected_titles');
+    const selectedTitleInputs = document.getElementById('selected_title_inputs');
+
+    function addTitle(value, label) {
+      if (!value) return;
+
+      if (selectedTitleInputs.querySelector('input[value="' + CSS.escape(value) + '"]')) {
+        titleSelect.value = '';
+        return;
+      }
+
+      const chip = document.createElement('span');
+      chip.className = 'selected-chip';
+      chip.setAttribute('data-value', value);
+      chip.innerHTML = `
       <span>${label}</span>
       <button type="button" aria-label="Remove ${label}">&times;</button>
     `;
 
-    chip.querySelector('button').addEventListener('click', function () {
-      chip.remove();
-      const hidden = selectedTitleInputs.querySelector('input[value="' + CSS.escape(value) + '"]');
-      if (hidden) hidden.remove();
+      chip.querySelector('button').addEventListener('click', function () {
+        chip.remove();
+        const hidden = selectedTitleInputs.querySelector('input[value="' + CSS.escape(value) + '"]');
+        if (hidden) hidden.remove();
+      });
+
+      selectedTitles.appendChild(chip);
+
+      const hiddenInput = document.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.name = 'titles[]';
+      hiddenInput.value = value;
+      selectedTitleInputs.appendChild(hiddenInput);
+
+      titleSelect.value = '';
+    }
+
+    titleSelect.addEventListener('change', function () {
+      const option = this.options[this.selectedIndex];
+      addTitle(option.value, option.text);
     });
+  </script>
 
-    selectedTitles.appendChild(chip);
+  <script>
+const searchBtn = document.getElementById('search_button');
+const results = document.getElementById('results');
 
-    const hiddenInput = document.createElement('input');
-    hiddenInput.type = 'hidden';
-    hiddenInput.name = 'titles[]';
-    hiddenInput.value = value;
-    selectedTitleInputs.appendChild(hiddenInput);
+searchBtn.addEventListener('click', function () {
+  results.style.display = 'block';
+  results.scrollIntoView({ behavior: 'smooth' });
+});
 
-    titleSelect.value = '';
+document.getElementById('search_term').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    document.getElementById('search_button').click();
   }
+});
 
-  titleSelect.addEventListener('change', function () {
-    const option = this.options[this.selectedIndex];
-    addTitle(option.value, option.text);
-  });
 </script>
 
 </body>
-</html>
 
+</html>
